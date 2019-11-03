@@ -6,7 +6,7 @@
  **/
 
 
-package com.org.wwls.thead;
+package com.thead.interrupt;
 
 /**
  * @author:xudd
