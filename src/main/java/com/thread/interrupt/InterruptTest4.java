@@ -6,7 +6,7 @@
  **/
 
 
-package com.thead.interrupt;
+package com.thread.interrupt;
 
 /**
  * @author:xudd
