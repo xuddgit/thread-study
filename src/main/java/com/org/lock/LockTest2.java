@@ -8,6 +8,8 @@ public class LockTest2 {
 
 
     private static final ReentrantReadWriteLock  readWriteLock = new ReentrantReadWriteLock ();
+
+
     public static void main(String[] args) {
 
         new Thread(()->{
