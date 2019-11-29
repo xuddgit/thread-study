@@ -6,7 +6,7 @@
  **/
 
 
-package com.org.nio;
+package com.io.nio.reactor.single;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -38,7 +38,7 @@ public class Reactor {
         SelectionKey sk =
                 serverSocket.register(selector, SelectionKey.OP_ACCEPT);
         //attach callback object, Acceptor
-        sk.attach(new Acceptor());
+        sk.attach(new Acceptor(serverSocket,selector));
     }
 
     public void run()

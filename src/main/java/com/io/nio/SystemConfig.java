@@ -6,7 +6,7 @@
  **/
 
 
-package com.org.nio;
+package com.io.nio;
 
 /**
  * @author:xudd
@@ -17,5 +17,8 @@ public class SystemConfig {
 
     public static final Integer SOCKET_SERVER_PORT=8080;
 
+
     public static final Integer INPUT_SIZE=100;
+
+    public static final Integer SEND_SIZE=100;
 }

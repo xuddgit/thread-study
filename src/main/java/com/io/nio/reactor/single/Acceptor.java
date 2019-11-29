@@ -6,7 +6,7 @@
  **/
 
 
-package com.org.nio;
+package com.io.nio.reactor.single;
 
 import java.io.IOException;
 import java.nio.channels.Selector;
@@ -36,7 +36,7 @@ public class Acceptor implements  Runnable{
         {
             SocketChannel channel = serverSocket.accept();
             if (channel != null){
-                new Handler(selector, channel);
+                new ReactorHandler(selector, channel);
             }
         } catch (IOException ex)
         { /* ... */ }
