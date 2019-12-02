@@ -17,7 +17,8 @@ import java.net.Socket;
 /**
  * @author:xudd
  * @date:2019/11/29 -17:24
- * @desc:
+ * @desc: 这种处理方案是最原始的处理方案
+ * 我们都曾经用过
  **/
 public class BasicModel implements Runnable{
     @Override
