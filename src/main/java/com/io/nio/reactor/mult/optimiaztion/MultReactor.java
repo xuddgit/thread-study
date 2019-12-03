@@ -14,13 +14,13 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class MReactorOptimization {
+public class MultReactor {
     //subReactors集合, 一个selector代表一个subReactor
     Selector[] selectors=new Selector[2];
     int next = 0;
     final ServerSocketChannel serverSocket;
 
-    MReactorOptimization(int port) throws IOException
+    MultReactor(int port) throws IOException
     { //Reactor初始化
         selectors[0]=Selector.open();
         selectors[1]= Selector.open();
