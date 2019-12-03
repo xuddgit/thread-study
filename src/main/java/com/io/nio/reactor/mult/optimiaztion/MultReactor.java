@@ -76,12 +76,16 @@ public class MultReactor {
         public synchronized void run() throws IOException
         {
             SocketChannel connection =
-                    serverSocket.accept(); //主selector负责accept
+                    serverSocket.accept();
+            //主selector负责accept
             if (connection != null)
             {
-                new Handler(selectors[next], connection); //选个subReactor去负责接收到的connection
+                new Handler(selectors[next], connection);
+                //选个subReactor去负责接收到的connection
             }
-            if (++next == selectors.length) next = 0;
+            if (++next == selectors.length) {
+                next = 0;
+            }
         }
     }
 
@@ -97,6 +101,9 @@ public class MultReactor {
         ByteBuffer output = ByteBuffer.allocate(SystemConfig.SEND_SIZE);
         static final int READING = 0, SENDING = 1;
         int state = READING;
+        static final int PROCESSING = 3;
+        ExecutorService pool= Executors.newFixedThreadPool(2);
+
 
         Handler(Selector selector, SocketChannel c) throws IOException
         {
@@ -110,20 +117,21 @@ public class MultReactor {
 
             //第二步,注册Read就绪事件
             sk.interestOps(SelectionKey.OP_READ);
+
             selector.wakeup();
         }
 
         boolean inputIsComplete()
         {
             /* ... */
-            return false;
+            return true;
         }
 
         boolean outputIsComplete()
         {
 
             /* ... */
-            return false;
+            return true;
         }
 
         void process()
@@ -148,13 +156,14 @@ public class MultReactor {
             { /* ... */ }
         }
 
-        void read() throws IOException
+        synchronized void read() throws IOException
         {
             channel.read(input);
             if (inputIsComplete())
             {
-
-                process();
+                state = PROCESSING;
+                //使用线程pool异步执行
+                pool.execute(new Processer());
 
                 state = SENDING;
                 // Normally also do first write now
@@ -164,7 +173,7 @@ public class MultReactor {
             }
         }
 
-        void send() throws IOException
+          void send() throws IOException
         {
             channel.write(output);
 
@@ -174,5 +183,25 @@ public class MultReactor {
                 sk.cancel();
             }
         }
+
+        synchronized void processAndHandOff(){
+            process();
+            state = SENDING;
+            // or rebind attachment
+            //process完,开始等待write就绪
+            sk.interestOps(SelectionKey.OP_WRITE);
+
+
+        }
+        class Processer implements  Runnable{
+
+
+            @Override
+            public void run() {
+                processAndHandOff();
+            }
+        }
     }
+
+
 }
