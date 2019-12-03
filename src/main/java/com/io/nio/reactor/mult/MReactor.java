@@ -1,6 +1,5 @@
 package com.io.nio.reactor.mult;
 
-import com.io.nio.reactor.single.Acceptor;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
