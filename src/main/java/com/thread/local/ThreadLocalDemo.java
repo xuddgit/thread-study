@@ -13,21 +13,20 @@ package com.thread.local;
  * @date:2020/1/3 -15:52
  * @desc:
  **/
-public class ThreadLocalDemo implements Runnable{
-    private static ThreadLocal<Long> tl=new ThreadLocal<Long>();
-    @Override
-    public void run() {
-        if(tl.get()==null) {
+public class ThreadLocalDemo {
 
-            tl.set(new Long(Thread.currentThread().getId()));
-        }
-        System.out.println(tl.get()+"\t");
-    }
+
+
+
+
     public static void main(String args[]) {
-        int k=0;
-        for(int i=0;i<1000;i++) {
-            Thread t=new Thread(new ThreadLocalDemo());
-            t.start();
-        }
+        ThreadLocal<Long> tl=new ThreadLocal<Long>();
+        tl.set( 1L);
+
+        Long id = tl.get() ;
+
+        System.out.println(id+"\t");
+
+
     }
 }
